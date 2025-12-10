@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <title> Amazon Bedrock Demo </title>
+        <link rel = "stylesheet" href = "style.css">
+    </head>
+
+    <body>
+        <h1> What's on your mind? </h1> <!--Title-->
+
+        <input id = "input" type = "text" placeholder = "Ask something...">
+        <button onclick = "sendInput()"> Submit </button>
+
+        <pre id = "response"></pre>
+
+
+        <script>
+            // Sends input to backend (app.py)
+            async function sendInput() {
+                // Get value from box
+                const input = document.getElementById("input").value;
+
+                // Send box value to API
+                const response = await fetch("http://127.0.0.1:8000/ask", {
+                    method: "POST",
+                    headers: {"Content-Type" : "application/json"}, 
+                    body: JSON.stringify({query: input}) // Matches pydantic model in app.py
+                })
+                
+                // Display Result           
+                const result = await response.json(); 
+                // Display Result
+                document.getElementById("response").innerText = result.reply;
+            }
+
+        </script>
+    </body>
+    
+
+</html>
